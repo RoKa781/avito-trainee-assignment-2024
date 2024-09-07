@@ -1,0 +1,45 @@
+.itemContainer {
+    display: flex;
+    gap: 20px;
+}
+
+.order {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.itemList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 0px;
+}
+
+.itemInformationContainer {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    align-items: flex-start;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.linkItem {
+    text-decoration: none;
+    color: black;
+    transition: transform .5s ease;
+}
+
+.linkItem:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}

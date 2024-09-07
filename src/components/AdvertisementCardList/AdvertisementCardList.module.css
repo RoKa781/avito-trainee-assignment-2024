@@ -1,0 +1,24 @@
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  list-style-type: none;
+  width: 100%;
+  padding-left: 0px;
+  margin-top: 30px;
+}
+
+.listItem {
+  cursor: pointer;
+  transition: transform 0.5s ease;
+  width: 300px;
+}
+
+.listItem:hover {
+  transform: scale(1.1);
+}
+
+.link {
+  text-decoration: none;
+}

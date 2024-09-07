@@ -1,0 +1,39 @@
+.adv {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(24, 19, 19, 0.5) 0 0 8px;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 500px;
+    color: black;
+}
+
+
+.adv__img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.adv__containerTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding-left: 10px;
+}
+
+.adv__title {
+    font-size: 20px;
+}
+
+.adv__price {
+    font-size: 15px
+}
+
+.adv__containerinfo {
+    display: flex;
+    justify-content: space-around;
+}
+
