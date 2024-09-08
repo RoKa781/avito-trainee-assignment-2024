@@ -9,11 +9,13 @@ function App() {
   return (
     <BrowserRouter>
       <AppHeader />
-      <Routes>
-        <Route path='/adv' element={<AdvertisementsPage />} />
-        <Route path='/adv/:id' element={<AdvertisementPage />} />
-        <Route path='/orders' element={<OrdersPage />} />
-      </Routes>
+      <div className='content'>
+        <Routes>
+          <Route path='/adv' element={<AdvertisementsPage />} />
+          <Route path='/adv/:id' element={<AdvertisementPage />} />
+          <Route path='/orders' element={<OrdersPage />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }

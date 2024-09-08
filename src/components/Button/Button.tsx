@@ -1,10 +1,12 @@
 import styles from './Button.module.css';
+import cn from 'classnames';
 
 interface ButtonProps {
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   children: React.ReactNode;
+  className?: string,
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -12,10 +14,11 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   onClick,
   children,
+  className,
 }) => {
   return (
     <button
-      className={styles.button}
+      className={cn(className, styles.button)}
       type={type}
       disabled={disabled}
       onClick={onClick}

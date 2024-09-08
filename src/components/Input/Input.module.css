@@ -6,13 +6,16 @@
 }
 
 .input {
-    background-color: transparent;
-    border: 1px solid black;
-    border-radius: 20px;
-    padding: 5px 11px 5px 15px;
-    min-width: 300px;
-    height: 35px;
-    color: black;
+    background-color: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    padding: 10px 20px;
+    width: 100%;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
 }
 
 input[type='number'] {

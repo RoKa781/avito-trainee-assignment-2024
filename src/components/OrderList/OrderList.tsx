@@ -1,11 +1,10 @@
-import OrderCard from '../OrderCard/OrderCard';
+import OrderCard, { OrderCardProps } from '../OrderCard/OrderCard';
 import { Order } from '../../utlis/types';
 import styles from './OrderList.module.css';
 
-interface OrderListProps {
+type OrderListProps = {
   orders: Order[];
-  onOrderComplete: () => void;
-}
+} & Pick<OrderCardProps, 'onOrderComplete'>
 
 const OrderList: React.FC<OrderListProps> = ({ orders, onOrderComplete }) => {
   return (

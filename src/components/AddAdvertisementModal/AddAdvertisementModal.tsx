@@ -4,14 +4,15 @@ import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
 import Input from '../Input/Input';
 import { Preloader } from '../Preloader/Preloader';
+import { advertisementsService } from '../../shared/api/AdvertisementsService';
 
 interface AddAdvertisementModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onChange: () => void;
+  onSuccess: () => Promise<void>;
 }
 
-const AddAdvertisementModal: React.FC<AddAdvertisementModalProps> = ({ isOpen, onClose, onChange }) => {
+const AddAdvertisementModal: React.FC<AddAdvertisementModalProps> = ({ isOpen, onClose, onSuccess }) => {
   const [urlImage, setUrlImage] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -24,7 +25,7 @@ const AddAdvertisementModal: React.FC<AddAdvertisementModalProps> = ({ isOpen, o
 
     const advertisementData = {
       name: title,
-      price,
+      price: price === '' ? 0 : price,
       createdAt: new Date().toISOString(),
       views: 0,
       likes: 0,
@@ -32,21 +33,12 @@ const AddAdvertisementModal: React.FC<AddAdvertisementModalProps> = ({ isOpen, o
     };
 
     try {
-      const response = await fetch('http://localhost:3001/advertisements', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-        body: JSON.stringify(advertisementData),
-      });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+      await advertisementsService.addAdvertisement(advertisementData);
 
       clearForm();
+      onSuccess();
       onClose();
-      onChange();
       
     } catch (error) {
       console.error('Ошибка при отправке данных:', error);

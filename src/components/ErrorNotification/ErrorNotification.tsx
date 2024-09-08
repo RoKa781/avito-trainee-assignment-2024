@@ -3,20 +3,18 @@ import styles from './ErrorNotification.module.css';
 
 interface ErrorNotificationProps {
   message: string;
-  onClose: () => void;
 }
 
-const ErrorNotification: React.FC<ErrorNotificationProps> = ({ message, onClose }) => {
+const ErrorNotification: React.FC<ErrorNotificationProps> = ({ message }) => {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setVisible(false);
-      onClose();
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [onClose]);
+  }, []);
 
   return (
     visible ? (

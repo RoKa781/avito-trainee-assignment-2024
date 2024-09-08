@@ -1,4 +1,4 @@
-import React from 'react';
+import styles from './OrderItem.module.css';
 
 interface OrderItem {
   id: number;
@@ -13,7 +13,7 @@ interface Props {
 
 const OrderItem: React.FC<Props> = ({ item }) => {
   return (
-    <div className="order-item" style={{ borderBottom: '1px solid gray', padding: '5px 0' }}>
+    <div className={styles.orderItem}>
       <p>{item.name}</p>
       <p>Цена: {item.price} руб.</p>
       <a href={item.sellerUrl} target="_blank" rel="noopener noreferrer">

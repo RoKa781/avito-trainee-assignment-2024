@@ -6,14 +6,27 @@
 }
 
 .button {
-    width: 20px;
-    height: 20px;
-    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    border: 0;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+    width: max-content;
+    height: max-content;
+    padding: 5px 10px;
+
+    cursor: pointer;
+
     outline: none;
-    background-color: transparent;
+    background-color: white;
     color: black;
     position: absolute;
-    padding: 0;
+
+    transition: 0.2s ease-in-out;
 }
 
 .itemInfo {
@@ -27,12 +40,12 @@
     gap: 20px;
 }
 
-.button:hover {
-    transform: scale(1.1);
+.button:hover, .button:focus-visible {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;
 }
 
 .button:active {
-    transform: scale(0.9);
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 4px;
 }
 
 .img {
@@ -59,8 +72,4 @@
     gap: 20px;
     width: 100%;
     margin-top: 30px;
-}
-
-.buttonInfo {
-    padding-left: 25px;
 }

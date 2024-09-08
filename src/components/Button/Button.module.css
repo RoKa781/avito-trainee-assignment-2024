@@ -1,24 +1,23 @@
 .button {
     border: none;
     border-radius: 20px;
-    padding: 10px 10px;
+    padding: 10px;
     color: white;
     background-color: rgb(80, 76, 76);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 50px;
-    transition: background-color 0.5s ease, color 0.5s ease;
+    transition: 0.2s ease;
     outline: none;
-    box-shadow: 2px 0px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 2px 0px 5px 0px rgba(0,0,0,0.2);
+    cursor: pointer;
 }
 
-.button:hover {
-    cursor: pointer;
-    background-color: aqua;
-    color: black;
+.button:hover, .button:focus-visible {
+    box-shadow: 2px 0px 5px 0px rgba(0,0,0,0.7);
 }
 
 .button:active {
-    transform: scale(0.9);
+    box-shadow: 2px 0px 2px 0px rgba(0,0,0,0.9);
 }

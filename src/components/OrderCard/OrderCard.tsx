@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getStatusLabel } from '../../utlis/getStatusLabel';
 import { Order } from '../../utlis/types';
 import Button from '../Button/Button';
 import styles from './OrderCard.module.css';
 import ErrorNotification from '../ErrorNotification/ErrorNotification';
+import { getStatusLabel } from '../../pages/OrdersPage/OrdersPage.helper';
+import { orderService } from '../../shared/api/OrdersService';
 
-interface OrderCardProps {
+export interface OrderCardProps {
   order: Order;
-  onOrderComplete: () => void;
+  onOrderComplete(): Promise<void>;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({ order, onOrderComplete }) => {
@@ -19,18 +20,9 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, onOrderComplete }) => {
   const handleComplete = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`http://localhost:3001/orders/${order.id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ status: 5 }),
-      });
+      await orderService.closeOrder(order.id);
+      await onOrderComplete();
 
-      if (!response.ok) {
-        throw new Error('Ошибка при обновлении заказа');
-      }
-      onOrderComplete();
     } catch (error) {
       setError('Произошла ошибка');
       console.error('Ошибка при сохранении изменений', error);
@@ -48,7 +40,6 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, onOrderComplete }) => {
       {error && (
         <ErrorNotification 
           message={error}
-          onClose={() => setError('')}
         />
       )}
       <div className={styles.order}>

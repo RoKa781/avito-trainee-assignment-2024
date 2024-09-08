@@ -39,7 +39,7 @@
     transition: transform .5s ease;
 }
 
-.linkItem:hover {
+.linkItem:hover, .linkItem:focus-visible {
     transform: scale(1.1);
     cursor: pointer;
 }

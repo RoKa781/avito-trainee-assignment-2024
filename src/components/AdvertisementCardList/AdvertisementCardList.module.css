@@ -15,10 +15,6 @@
   width: 300px;
 }
 
-.listItem:hover {
-  transform: scale(1.1);
-}
-
 .link {
   text-decoration: none;
 }

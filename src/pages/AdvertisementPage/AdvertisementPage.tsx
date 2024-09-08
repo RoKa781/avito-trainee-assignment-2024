@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import { Advertisment } from '../../utlis/types';
 import { useParams } from 'react-router-dom';
 import { Preloader } from '../../components/Preloader/Preloader';
 import Input from '../../components/Input/Input';
@@ -7,72 +5,21 @@ import styles from './AdvertisementPage.module.css';
 import Button from '../../components/Button/Button';
 import svg from '../../images/pencil-svgrepo-com.svg';
 import ErrorNotification from '../../components/ErrorNotification/ErrorNotification';
+import { useAdvertisement } from '../../shared/hooks/useAdvertisement';
+import { Helmet } from 'react-helmet-async';
 
 const AdvertisementPage = () => {
-  const [order, setOrder] = useState<Advertisment>();
-  const [isLoading, setIsLoading] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState<Partial<Advertisment>>({
-    imageUrl: '',
-    name: '',
-    description: '',
-    price: 0,
-  });
-  const [error, setError] = useState<string | null>(null);
   const { id } = useParams<{ id: string }>();
-
-
-  useEffect(() => {
-    const fetchAdvertisement = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(`http://localhost:3001/advertisements/${id}`);
-        if (!response.ok) {
-          throw new Error('Что-то пошло не так');
-        }
-        const order = await response.json();
-        setOrder(order);
-        setFormData(order);
-      } catch (error) {
-        setError('Не удалось получить данные. Пожалуйста, попробуйте позже.');
-        console.error('Ошибка при получении объявления', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchAdvertisement();
-  }, [id]);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSave = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(`http://localhost:3001/advertisements/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Ошибка при обновлении объявления');
-      }
-
-      const updatedOrder = await response.json();
-      setOrder(updatedOrder);
-      setIsEditing(false);
-    } catch (error) {
-      setError('Не удалось получить данные. Пожалуйста, попробуйте позже.');
-      console.error('Ошибка при сохранении изменений', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const {
+    order,
+    formData,
+    isLoading,
+    error,
+    isEditing,
+    handleInputChange,
+    handleSave,
+    setIsEditing,
+  } = useAdvertisement(id as string);
 
   if (isLoading) {
     return <Preloader />;
@@ -80,51 +27,55 @@ const AdvertisementPage = () => {
 
   return (
     <main className={styles.main}>
+      <Helmet>
+        <title>{order?.name}</title>
+      </Helmet>
       {error && (
         <ErrorNotification 
           message={error}
-          onClose={() => setError(null)}
         />
       )}
       {isEditing ? (
-        <><div className={styles.editForm}>
-          <Input
-            type="url"
-            name="imageUrl"
-            label="URL изображения"
-            value={formData.imageUrl || ''}
-            onChange={handleInputChange}
-            placeholder="Введите URL изображения" />
-          <Input
-            type="text"
-            name="name"
-            label="Название"
-            value={formData.name || ''}
-            onChange={handleInputChange}
-            placeholder="Введите название" />
-          <Input
-            type="text"
-            name="description"
-            label="Описание"
-            value={formData.description || ''}
-            onChange={handleInputChange}
-            placeholder="Введите описание" />
-          <Input
-            type="number"
-            name="price"
-            label="Цена"
-            value={formData.price || ''}
-            onChange={handleInputChange}
-            placeholder="Введите цену" />
-          <Button onClick={handleSave}>Сохранить</Button>
-        </div>
-        <button
-          onClick={() => setIsEditing(!isEditing)}
-          style={{ backgroundImage: `url(${svg})` }}
-          className={styles.button}
-        >
-          {isEditing ? <span className={styles.buttonInfo}>Отмена</span> : <span className={styles.buttonInfo}>Редактировать</span>}
-        </button></>
+        <>
+          <div className={styles.editForm}>
+            <Input
+              type="url"
+              name="imageUrl"
+              label="URL изображения"
+              value={formData.imageUrl || ''}
+              onChange={handleInputChange}
+              placeholder="Введите URL изображения" />
+            <Input
+              type="text"
+              name="name"
+              label="Название"
+              value={formData.name || ''}
+              onChange={handleInputChange}
+              placeholder="Введите название" />
+            <Input
+              type="text"
+              name="description"
+              label="Описание"
+              value={formData.description || ''}
+              onChange={handleInputChange}
+              placeholder="Введите описание" />
+            <Input
+              type="number"
+              name="price"
+              label="Цена"
+              value={formData.price || ''}
+              onChange={handleInputChange}
+              placeholder="Введите цену" />
+            <Button onClick={() => handleSave(id as string)}>Сохранить</Button>
+          </div>
+          <button
+            onClick={() => setIsEditing(!isEditing)}
+            className={styles.button}
+          >
+            <img src={svg} alt="Edit" />
+            {isEditing ? <span className={styles.buttonInfo}>Отмена</span> : <span className={styles.buttonInfo}>Редактировать</span>}
+          </button>
+        </>
       ) : (
         <>
           <div>
@@ -147,10 +98,10 @@ const AdvertisementPage = () => {
           </div>
           <button
             onClick={() => setIsEditing(!isEditing)}
-            style={{ backgroundImage: `url(${svg})` }}
             className={styles.button}
           >
-            {isEditing ? <span className={styles.buttonInfo}>Отмена</span> : <span className={styles.buttonInfo}>Редактировать</span>}
+            <img src={svg} alt="Edit" />
+            {isEditing ? <span>Отмена</span> : <span>Редактировать</span>}
           </button>
         </>
       )}
