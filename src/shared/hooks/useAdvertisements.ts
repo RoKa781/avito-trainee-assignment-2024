@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Advertisment } from '../../utlis/types';
 import { advertisementsService } from '../../shared/api/AdvertisementsService';
 import { EnumItemsOnList } from '../../pages/AdvertisementsPage/AdvertisementsPage.helper';
+import { useSearchParams } from 'react-router-dom';
 
 export function useAdvertisements() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,7 +14,8 @@ export function useAdvertisements() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchText, setSearchText] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [filteredAdvertisements, setFilteredAdvertisements] = useState<Advertisment[]>([]);
+  const [filterParams, setFilterParams] = useState<Record<string, string | undefined>>({});
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const setPagesCount = (dataLength: number) => {
     setTotalPages(Math.ceil(dataLength / itemsPerPage));
@@ -35,17 +37,55 @@ export function useAdvertisements() {
     }
   };
 
-  useEffect(() => {
-    fetchAdvertisements(currentPage, itemsPerPage);
-  }, [currentPage, itemsPerPage]);
+  const fetchAdvertisementsBySearch = async (page: number, itemsPerPage: number, name: string) => {
+    setIsLoading(true);
+    try {
+      const data = await advertisementsService.getAdvertisementsBySearch(page, itemsPerPage, name);
+      setAdvertisements(data);
+      const dataTotal = await advertisementsService.getAdvertisementsAllBySearch(name);
+      setPagesCount(dataTotal.length);
+      if (name) {
+        setSearchParams({ name });
+      } else {
+        setSearchParams({});
+      }
+
+    } catch (error) {
+      setError('Не удалось получить данные. Пожалуйста, попробуйте позже.');
+      console.error('Ошибка при загрузке данных', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchAdvertisementsByFilter = async (page: number, itemsPerPage: number, filter: Record<string, string | undefined>) => {
+    setIsLoading(true);
+    try {
+      const data = await advertisementsService.getAdvertisementsByFilter(page, itemsPerPage, filter);
+      const totalData = await advertisementsService.getAllAdvertisementsByFilter(filter);
+      setAdvertisements(data);
+      setPagesCount(totalData.length);
+    } catch (error) {
+      setError('Не удалось получить данные. Пожалуйста, попробуйте позже.');
+      console.error('Ошибка при загрузке данных', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const filteredAdv = advertisements.filter(ad =>
-      ad.name.toLowerCase().includes(searchText.toLowerCase()),
-    );
-    setFilteredAdvertisements(filteredAdv);
-    setPagesCount(filteredAdv.length);
-  }, [searchText, advertisements]);
+    const nameParam = searchParams.get('name');
+    if (nameParam) {
+      setSearchText(nameParam);
+      fetchAdvertisementsBySearch(currentPage, itemsPerPage, nameParam);
+    } else if (filterParams) {
+      fetchAdvertisementsByFilter(currentPage, itemsPerPage, filterParams);
+    }
+    else {
+      fetchAdvertisements(currentPage, itemsPerPage);
+    }
+
+  }, [searchParams, currentPage, itemsPerPage]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -63,7 +103,43 @@ export function useAdvertisements() {
     setSearchText(event.target.value);
   };
 
+  const handleSearchKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      fetchAdvertisementsBySearch(currentPage, itemsPerPage, searchText);
+    }
+  }, [fetchAdvertisementsBySearch, currentPage, itemsPerPage]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFilterParams(prevFilters => {
+      const updatedFilters = { ...prevFilters, [name]: value };
+      return updatedFilters;
+    });
+  };
+
+  const applyFilters = () => {
+    const updatedSearchParams = new URLSearchParams();
+  
+    Object.keys(filterParams).forEach(key => {
+      const value = filterParams[key];
+      if (value) {
+        updatedSearchParams.set(key, value);
+      }
+    });
+  
+    setSearchParams(updatedSearchParams);
+
+    fetchAdvertisementsByFilter(currentPage, itemsPerPage, filterParams);
+    
+  };
+
+
   return {
+    applyFilters,
+    filterParams,
+    handleInputChange,
+    fetchAdvertisementsBySearch,
+    handleSearchKeyDown,
     fetchAdvertisements,
     isModalOpen,
     currentPage,
@@ -73,7 +149,6 @@ export function useAdvertisements() {
     isLoading,
     searchText,
     error,
-    filteredAdvertisements,
     openModal,
     closeModal,
     handlePageChange,

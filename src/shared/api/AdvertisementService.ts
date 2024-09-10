@@ -19,6 +19,7 @@ export class AdvertisementService extends ServerService {
 
     return await this.request(endpoint, options);
   }
+
 }
 
 export const advertisementService = new AdvertisementService();

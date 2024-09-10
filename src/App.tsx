@@ -14,6 +14,7 @@ function App() {
           <Route path='/adv' element={<AdvertisementsPage />} />
           <Route path='/adv/:id' element={<AdvertisementPage />} />
           <Route path='/orders' element={<OrdersPage />} />
+          <Route path='/orders/:id' element={<OrdersPage />} />
         </Routes>
       </div>
     </BrowserRouter>

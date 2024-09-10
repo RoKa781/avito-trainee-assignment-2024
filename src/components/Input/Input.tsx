@@ -11,6 +11,7 @@ interface InputProps {
     required?: boolean;
     disabled?: boolean;
     placeholder?: string;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void | Promise <void>
   }
   
 const Input: React.FC<InputProps> = ({
@@ -23,6 +24,7 @@ const Input: React.FC<InputProps> = ({
   required = false,
   disabled = false,
   placeholder,
+  onKeyDown,
 }) => {
   return (
     <div className={styles.inputContainer}>
@@ -40,6 +42,7 @@ const Input: React.FC<InputProps> = ({
         required={required}
         disabled={disabled}
         placeholder={placeholder}
+        onKeyDown={onKeyDown}
       />
     </div>
   );

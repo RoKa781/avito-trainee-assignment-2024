@@ -10,9 +10,11 @@ import ErrorNotification from '../../components/ErrorNotification/ErrorNotificat
 import { useAdvertisements } from '../../shared/hooks/useAdvertisements';
 import { itemsOnList } from './AdvertisementsPage.helper';
 import { Helmet } from 'react-helmet-async';
+import Filters from '../../components/Filters/Filters';
 
 const AdvertisementsPage = () => {
   const {
+    filterParams,
     fetchAdvertisements,
     isModalOpen,
     currentPage,
@@ -21,12 +23,15 @@ const AdvertisementsPage = () => {
     isLoading,
     searchText,
     error,
-    filteredAdvertisements,
+    advertisements,
     openModal,
     closeModal,
     handlePageChange,
     handleItemsPerPageChange,
     handleSearchChange,
+    handleSearchKeyDown,
+    handleInputChange,
+    applyFilters,
   } = useAdvertisements();
 
   return (
@@ -46,7 +51,9 @@ const AdvertisementsPage = () => {
           placeholder='Начните искать' 
           value={searchText}
           onChange={handleSearchChange}
+          onKeyDown={handleSearchKeyDown}
         />
+        <Filters handleInputChange={handleInputChange}  filterParams={filterParams} applyFilters={applyFilters}/>
         <div className={styles.selectContainer}>
           <div className={styles.customSelect}>
             <select onChange={handleItemsPerPageChange} value={itemsPerPage}>
@@ -59,10 +66,11 @@ const AdvertisementsPage = () => {
         </div>
         <Button onClick={openModal}>Добавить новое объявление</Button>
       </div>
+      {!advertisements.length && (<h2>Объявлений не найдено</h2>)}
       {isLoading ? (
         <Preloader />
       ) : (
-        <AdvertisementCardList data={filteredAdvertisements} />
+        <AdvertisementCardList data={advertisements} />
       )}
       <Pagination
         currentPage={currentPage}

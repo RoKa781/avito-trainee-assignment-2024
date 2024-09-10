@@ -1,8 +1,17 @@
+import { useNavigate } from 'react-router-dom';
 import { Advertisment } from '../../utlis/types';
+import Button from '../Button/Button';
 import styles from './AdvertisementCard.module.css';
 
+const AdvertisementCard: React.FC<Advertisment> = ({ imageUrl, name, price, views, likes, id }) => {
+  const navigate = useNavigate();
 
-const AdvertisementCard: React.FC<Advertisment> = ({ imageUrl, name, price, views, likes }) => {
+  const handleButtonClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+    navigate(`/orders/${id}`);
+  };
+
   return (
     <article className={styles.adv}>
       <img src={imageUrl} alt={name} className={styles.adv__img} />
@@ -14,6 +23,9 @@ const AdvertisementCard: React.FC<Advertisment> = ({ imageUrl, name, price, view
         <span>Просмотры: {views}</span>
         <span>Лайки: {likes}</span>
       </div>
+      <Button onClick={handleButtonClick} className={styles.button}>
+        Перейти к заказам
+      </Button>
     </article>
   );
 };

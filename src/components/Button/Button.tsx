@@ -18,7 +18,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      className={cn(className, styles.button)}
+      className={cn(styles.button, className)}
       type={type}
       disabled={disabled}
       onClick={onClick}

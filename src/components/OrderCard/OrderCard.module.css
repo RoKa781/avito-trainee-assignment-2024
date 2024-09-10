@@ -15,6 +15,7 @@
     flex-wrap: wrap;
     gap: 15px;
     padding: 0px;
+    width: 100%;
 }
 
 .itemInformationContainer {
@@ -24,6 +25,11 @@
     align-items: flex-start;
     border: 1px solid black;
     padding: 10px;
+    gap: 20px;
+}
+
+.itemInformationContainer p {
+    margin: 0;
 }
 
 .card {
@@ -37,6 +43,8 @@
     text-decoration: none;
     color: black;
     transition: transform .5s ease;
+    width: 100%;
+    max-width: 200px;
 }
 
 .linkItem:hover, .linkItem:focus-visible {

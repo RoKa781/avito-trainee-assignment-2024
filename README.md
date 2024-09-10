@@ -18,3 +18,6 @@
 ### `npm run server`
 Запускает [json-server](https://github.com/typicode/json-server) для эмуляции REST API, используя файл `db.json` как источник данных.  
 Сервер будет доступен по адресу: `http://localhost:3001`.
+
+### `npm run test`
+Запуск тестов

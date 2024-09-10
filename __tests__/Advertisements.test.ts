@@ -1,5 +1,5 @@
-import { AdvertisementsService } from './../src/shared/api/AdvertisementsService';
 import config from '../src/config';
+import { AdvertisementsService } from '../src/shared/api/AdvertisementsService';
 import fetchMock from 'jest-fetch-mock';
 import { Advertisment } from '../src/utlis/types';
 
@@ -87,6 +87,84 @@ describe('AdvertisementsService', () => {
     });
   });
 
+  describe('getAdvertisementsBySearch', () => {
+    it('должен корректно запрашивать объявления по поисковому запросу', async () => {
+      fetchMock.mockResponseOnce(JSON.stringify(mockAdvertisements));
+
+      const currentPage = 1;
+      const itemsPerPage = 10;
+      const name = 'Объявление';
+      const ads = await advertisementsService.getAdvertisementsBySearch(currentPage, itemsPerPage, name);
+
+      expect(fetchMock).toHaveBeenCalledWith(`${config.apiUrl}/advertisements?_sort=-createdAt&_start=0&_limit=10&name=${name}`, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      expect(ads).toEqual(mockAdvertisements);
+    });
+
+    it('должен корректно обрабатывать ошибки при запросе по поисковому запросу', async () => {
+      fetchMock.mockRejectOnce(new Error('Search error'));
+
+      await expect(advertisementsService.getAdvertisementsBySearch(1, 10, 'Объявление')).rejects.toThrow('Search error');
+    });
+  });
+
+  describe('getAdvertisementsAllBySearch', () => {
+    it('должен корректно возвращать все объявления по поисковому запросу', async () => {
+      fetchMock.mockResponseOnce(JSON.stringify(mockAdvertisements));
+
+      const name = 'Объявление';
+      const ads = await advertisementsService.getAdvertisementsAllBySearch(name);
+
+      expect(fetchMock).toHaveBeenCalledWith(`${config.apiUrl}/advertisements?_sort=-createdAt&name=${name}`, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      expect(ads).toEqual(mockAdvertisements);
+    });
+
+    it('должен корректно обрабатывать ошибки при запросе всех объявлений по поисковому запросу', async () => {
+      fetchMock.mockRejectOnce(new Error('Search error'));
+
+      await expect(advertisementsService.getAdvertisementsAllBySearch('Объявление')).rejects.toThrow('Search error');
+    });
+  });
+
+  describe('getAdvertisementsByFilter', () => {
+    it('должен корректно запрашивать объявления с фильтрацией', async () => {
+      fetchMock.mockResponseOnce(JSON.stringify(mockAdvertisements));
+
+      const currentPage = 1;
+      const itemsPerPage = 10;
+      const filterParams = { price: '1000' };
+      const ads = await advertisementsService.getAdvertisementsByFilter(currentPage, itemsPerPage, filterParams);
+
+      expect(fetchMock).toHaveBeenCalledWith(`${config.apiUrl}/advertisements?_sort=-createdAt&_start=0&_limit=10&price_gte=1000`, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      expect(ads).toEqual(mockAdvertisements);
+    });
+  });
+
+  describe('getAllAdvertisementsByFilter', () => {
+    it('должен корректно возвращать все объявления с фильтрацией', async () => {
+      fetchMock.mockResponseOnce(JSON.stringify(mockAdvertisements));
+
+      const filterParams = { price: '1000' };
+      const ads = await advertisementsService.getAllAdvertisementsByFilter(filterParams);
+
+      expect(fetchMock).toHaveBeenCalledWith(`${config.apiUrl}/advertisements?_sort=-createdAt&price_gte=1000`, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      expect(ads).toEqual(mockAdvertisements);
+    });
+
+    it('должен корректно обрабатывать ошибки при запросе всех объявлений с фильтрацией', async () => {
+      fetchMock.mockRejectOnce(new Error('Filter error'));
+
+      await expect(advertisementsService.getAllAdvertisementsByFilter({ price: '1000' })).rejects.toThrow('Filter error');
+    });
+  });
+
   describe('addAdvertisement', () => {
     it('должен корректно добавлять новое объявление', async () => {
       const newAd = {
@@ -126,3 +204,4 @@ describe('AdvertisementsService', () => {
     });
   });
 });
+
