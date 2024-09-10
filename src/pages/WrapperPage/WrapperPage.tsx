@@ -1,14 +1,9 @@
-
 interface WrapperPageProps {
-    children: React.ReactNode;
-  }
+  children: React.ReactNode;
+}
 
 const WrapperPage: React.FC<WrapperPageProps> = ({ children }) => {
-  return (
-    <main>
-      {children}
-    </main>
-  );
+  return <main>{children}</main>;
 };
 
 export default WrapperPage;

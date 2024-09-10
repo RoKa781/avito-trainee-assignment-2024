@@ -12,17 +12,17 @@ interface FiltersProps {
     likes?: string;
   };
   applyFilters: () => void;
+  resetFilters: () => void;
 }
 
-const Filters: React.FC<FiltersProps> = ({ handleInputChange, filterParams, applyFilters }) => {
+const Filters: React.FC<FiltersProps> = ({
+  handleInputChange,
+  filterParams,
+  applyFilters,
+  resetFilters,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-      setIsOpen(false);
-    }
-  };
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -30,6 +30,15 @@ const Filters: React.FC<FiltersProps> = ({ handleInputChange, filterParams, appl
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      containerRef.current &&
+      !containerRef.current.contains(event.target as Node)
+    ) {
+      setIsOpen(false);
+    }
+  };
 
   const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -39,36 +48,38 @@ const Filters: React.FC<FiltersProps> = ({ handleInputChange, filterParams, appl
     <div
       className={classNames(styles.filter, { [styles.filterActive]: isOpen })}
       tabIndex={0}
-      onClick={() => setIsOpen(prev => !prev)}
+      onClick={() => setIsOpen((prev) => !prev)}
       ref={containerRef}
     >
       {isOpen && (
-        <div
-          className={styles.filtersContainer}
-          onClick={handleContainerClick}
-        >
+        <div className={styles.filtersContainer} onClick={handleContainerClick}>
           <Input
-            name='price'
-            label='Цена'
-            type='number'
+            name="price"
+            label="Цена"
+            type="number"
             value={filterParams.price || ''}
             onChange={handleInputChange}
           />
           <Input
-            name='views'
-            label='Просмотры'
-            type='number'
+            name="views"
+            label="Просмотры"
+            type="number"
             value={filterParams.views || ''}
             onChange={handleInputChange}
           />
           <Input
-            name='likes'
-            label='Лайки'
-            type='number'
+            name="likes"
+            label="Лайки"
+            type="number"
             value={filterParams.likes || ''}
             onChange={handleInputChange}
           />
-          <Button onClick={applyFilters} className={styles.button}>Применить</Button>
+          <Button onClick={applyFilters} className={styles.button}>
+            Применить
+          </Button>
+          <Button onClick={resetFilters} className={styles.button}>
+            Сбросить
+          </Button>
         </div>
       )}
       Фильтр
@@ -77,6 +88,3 @@ const Filters: React.FC<FiltersProps> = ({ handleInputChange, filterParams, appl
 };
 
 export default Filters;
-
-
-

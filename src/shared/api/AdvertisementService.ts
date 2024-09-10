@@ -7,7 +7,7 @@ export class AdvertisementService extends ServerService {
     return await this.request(endpoint);
   }
 
-  async updateAdvertisement(id: string, formData:Partial<Advertisment>) {
+  async updateAdvertisement(id: string, formData: Partial<Advertisment>) {
     const endpoint = `/advertisements/${id}`;
     const options = {
       method: 'PATCH',
@@ -19,7 +19,6 @@ export class AdvertisementService extends ServerService {
 
     return await this.request(endpoint, options);
   }
-
 }
 
 export const advertisementService = new AdvertisementService();

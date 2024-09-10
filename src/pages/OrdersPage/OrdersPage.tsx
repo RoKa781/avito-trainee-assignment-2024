@@ -30,28 +30,28 @@ const OrdersPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   let filteredOrders = [];
-  
+
   if (id) {
-    filteredOrders = orders.filter(order =>
-      order.items.some(itemDetail => itemDetail.id === id),
+    filteredOrders = orders.filter((order) =>
+      order.items.some((itemDetail) => itemDetail.id === id)
     );
   } else {
     filteredOrders = orders;
   }
-  
+
   return (
     <WrapperPage>
       <Helmet>
         <title>Заказы</title>
       </Helmet>
-      {error && (
-        <ErrorNotification message={error} />
-      )}
+      {error && <ErrorNotification message={error} />}
       <div className={styles.buttonsContainer}>
-        {buttonsFilterStatuses.map(button => (
-          <Button 
+        {buttonsFilterStatuses.map((button) => (
+          <Button
             key={button.statusCode}
-            className={cn({ [styles.active]: button.statusCode === activeStatusCode })}
+            className={cn({
+              [styles.active]: button.statusCode === activeStatusCode,
+            })}
             onClick={handleSelectButton(button.statusCode)}
           >
             {button.name}
@@ -61,8 +61,8 @@ const OrdersPage: React.FC = () => {
           Сортировать по {sortOrder === 'asc' ? 'возрастанию' : 'убыванию'}
         </Button>
       </div>
-      
-      {!orders.length || !filteredOrders.length && (<h2>Ничего не найдено</h2>)}
+
+      {!orders.length || (!filteredOrders.length && <h2>Ничего не найдено</h2>)}
       {isLoading ? (
         <Preloader />
       ) : (
@@ -71,7 +71,11 @@ const OrdersPage: React.FC = () => {
           onOrderComplete={() => fetchOrders(currentStatus)}
         />
       )}
-      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange}/>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </WrapperPage>
   );
 };

@@ -1,20 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useCallback } from 'react';
-import { Advertisment } from '../../utlis/types';
-import { advertisementsService } from '../../shared/api/AdvertisementsService';
-import { EnumItemsOnList } from '../../pages/AdvertisementsPage/AdvertisementsPage.helper';
+import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { EnumItemsOnList } from '../../pages/AdvertisementsPage/AdvertisementsPage.helper';
+import { advertisementsService } from '../../shared/api/AdvertisementsService';
+import { Advertisment } from '../../utlis/types';
 
 export function useAdvertisements() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState<EnumItemsOnList>(EnumItemsOnList.LOW);
+  const [itemsPerPage, setItemsPerPage] = useState<EnumItemsOnList>(
+    EnumItemsOnList.LOW
+  );
   const [advertisements, setAdvertisements] = useState<Advertisment[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [searchText, setSearchText] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [filterParams, setFilterParams] = useState<Record<string, string | undefined>>({});
+  const [filterParams, setFilterParams] = useState<
+    Record<string, string | undefined>
+  >({});
   const [searchParams, setSearchParams] = useSearchParams();
 
   const setPagesCount = (dataLength: number) => {
@@ -24,7 +28,10 @@ export function useAdvertisements() {
   const fetchAdvertisements = async (page: number, itemsPerPage: number) => {
     setIsLoading(true);
     try {
-      const data = await advertisementsService.getAdvertisements(page, itemsPerPage);
+      const data = await advertisementsService.getAdvertisements(
+        page,
+        itemsPerPage
+      );
       setAdvertisements(data);
 
       const totalData = await advertisementsService.getTotalAdvertisements();
@@ -37,19 +44,27 @@ export function useAdvertisements() {
     }
   };
 
-  const fetchAdvertisementsBySearch = async (page: number, itemsPerPage: number, name: string) => {
+  const fetchAdvertisementsBySearch = async (
+    page: number,
+    itemsPerPage: number,
+    name: string
+  ) => {
     setIsLoading(true);
     try {
-      const data = await advertisementsService.getAdvertisementsBySearch(page, itemsPerPage, name);
+      const data = await advertisementsService.getAdvertisementsBySearch(
+        page,
+        itemsPerPage,
+        name
+      );
       setAdvertisements(data);
-      const dataTotal = await advertisementsService.getAdvertisementsAllBySearch(name);
+      const dataTotal =
+        await advertisementsService.getAdvertisementsAllBySearch(name);
       setPagesCount(dataTotal.length);
       if (name) {
         setSearchParams({ name });
       } else {
         setSearchParams({});
       }
-
     } catch (error) {
       setError('Не удалось получить данные. Пожалуйста, попробуйте позже.');
       console.error('Ошибка при загрузке данных', error);
@@ -58,11 +73,20 @@ export function useAdvertisements() {
     }
   };
 
-  const fetchAdvertisementsByFilter = async (page: number, itemsPerPage: number, filter: Record<string, string | undefined>) => {
+  const fetchAdvertisementsByFilter = async (
+    page: number,
+    itemsPerPage: number,
+    filter: Record<string, string | undefined>
+  ) => {
     setIsLoading(true);
     try {
-      const data = await advertisementsService.getAdvertisementsByFilter(page, itemsPerPage, filter);
-      const totalData = await advertisementsService.getAllAdvertisementsByFilter(filter);
+      const data = await advertisementsService.getAdvertisementsByFilter(
+        page,
+        itemsPerPage,
+        filter
+      );
+      const totalData =
+        await advertisementsService.getAllAdvertisementsByFilter(filter);
       setAdvertisements(data);
       setPagesCount(totalData.length);
     } catch (error) {
@@ -78,13 +102,11 @@ export function useAdvertisements() {
     if (nameParam) {
       setSearchText(nameParam);
       fetchAdvertisementsBySearch(currentPage, itemsPerPage, nameParam);
-    } else if (filterParams) {
+    } else if (Object.keys(filterParams).length > 0) {
       fetchAdvertisementsByFilter(currentPage, itemsPerPage, filterParams);
-    }
-    else {
+    } else {
       fetchAdvertisements(currentPage, itemsPerPage);
     }
-
   }, [searchParams, currentPage, itemsPerPage]);
 
   const openModal = () => setIsModalOpen(true);
@@ -94,7 +116,9 @@ export function useAdvertisements() {
     setCurrentPage(page);
   };
 
-  const handleItemsPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleItemsPerPageChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setItemsPerPage(Number(event.target.value));
     setCurrentPage(1);
   };
@@ -103,19 +127,22 @@ export function useAdvertisements() {
     setSearchText(event.target.value);
   };
 
-  const handleSearchClick = useCallback(()=> {
+  const handleSearchClick = useCallback(() => {
     fetchAdvertisementsBySearch(currentPage, itemsPerPage, searchText);
   }, [fetchAdvertisementsBySearch, currentPage, itemsPerPage]);
 
-  const handleSearchKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      fetchAdvertisementsBySearch(currentPage, itemsPerPage, searchText);
-    }
-  }, [fetchAdvertisementsBySearch, currentPage, itemsPerPage]);
+  const handleSearchKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        fetchAdvertisementsBySearch(currentPage, itemsPerPage, searchText);
+      }
+    },
+    [fetchAdvertisementsBySearch, currentPage, itemsPerPage]
+  );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFilterParams(prevFilters => {
+    setFilterParams((prevFilters) => {
       const updatedFilters = { ...prevFilters, [name]: value };
       return updatedFilters;
     });
@@ -123,22 +150,29 @@ export function useAdvertisements() {
 
   const applyFilters = () => {
     const updatedSearchParams = new URLSearchParams();
-  
-    Object.keys(filterParams).forEach(key => {
+
+    Object.keys(filterParams).forEach((key) => {
       const value = filterParams[key];
       if (value) {
         updatedSearchParams.set(key, value);
       }
     });
-  
+
     setSearchParams(updatedSearchParams);
 
     fetchAdvertisementsByFilter(currentPage, itemsPerPage, filterParams);
-    
   };
 
+  const handleResetClick = () => {
+    setFilterParams({
+      likes: '',
+      price: '',
+      views: '',
+    });
+  };
 
   return {
+    handleResetClick,
     handleSearchClick,
     applyFilters,
     filterParams,

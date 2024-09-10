@@ -3,7 +3,14 @@ import { Advertisment } from '../../utlis/types';
 import Button from '../Button/Button';
 import styles from './AdvertisementCard.module.css';
 
-const AdvertisementCard: React.FC<Advertisment> = ({ imageUrl, name, price, views, likes, id }) => {
+const AdvertisementCard: React.FC<Advertisment> = ({
+  imageUrl,
+  name,
+  price,
+  views,
+  likes,
+  id,
+}) => {
   const navigate = useNavigate();
 
   const handleButtonClick = (event: React.MouseEvent) => {

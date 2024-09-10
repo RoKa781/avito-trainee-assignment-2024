@@ -73,7 +73,13 @@
   transform: scale(0.9);
 }
 
-@media (width < 637px) {
+@media (max-width: 1299px) {
+  .container {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 637px) {
   .container {
     flex-direction: column;
     width: 100%;

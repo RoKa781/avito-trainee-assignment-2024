@@ -16,13 +16,11 @@ const ErrorNotification: React.FC<ErrorNotificationProps> = ({ message }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  return (
-    visible ? (
-      <div className={styles.notification}>
-        <p>{message}</p>
-      </div>
-    ) : null
-  );
+  return visible ? (
+    <div className={styles.notification}>
+      <p>{message}</p>
+    </div>
+  ) : null;
 };
 
 export default ErrorNotification;

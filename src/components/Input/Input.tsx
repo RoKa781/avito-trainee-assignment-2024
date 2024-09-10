@@ -1,19 +1,21 @@
 import styles from './Input.module.css';
 
 interface InputProps {
-    type?: 'text' | 'number' | 'date' | 'url';
-    value?: string | number;
-    name: string;
-    label: string;
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    handleBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-    inputStyles?: string;
-    required?: boolean;
-    disabled?: boolean;
-    placeholder?: string;
-    onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void | Promise <void>
-  }
-  
+  type?: 'text' | 'number' | 'date' | 'url';
+  value?: string | number;
+  name: string;
+  label: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  inputStyles?: string;
+  required?: boolean;
+  disabled?: boolean;
+  placeholder?: string;
+  onKeyDown?: (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => void | Promise<void>;
+}
+
 const Input: React.FC<InputProps> = ({
   type = 'text',
   value,
@@ -47,5 +49,5 @@ const Input: React.FC<InputProps> = ({
     </div>
   );
 };
-  
+
 export default Input;

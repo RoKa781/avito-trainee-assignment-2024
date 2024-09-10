@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Advertisment } from '../../utlis/types';
 import { advertisementService } from '../api/AdvertisementService';
 
@@ -37,7 +37,8 @@ export function useAdvertisement(id: string | null) {
   const handleSave = async (id: string) => {
     setIsLoading(true);
     try {
-      const updatedAdvertisement = await advertisementService.updateAdvertisement(id, formData);
+      const updatedAdvertisement =
+        await advertisementService.updateAdvertisement(id, formData);
       setOrder(updatedAdvertisement);
       setIsEditing(false);
     } catch (error) {

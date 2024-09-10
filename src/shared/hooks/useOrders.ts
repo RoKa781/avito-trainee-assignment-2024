@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Order } from '../../utlis/types';
-import { orderService } from '../../shared/api/OrdersService';
 import { OrderState } from '../../pages/OrdersPage/OrdersPage.helper';
+import { orderService } from '../../shared/api/OrdersService';
+import { Order } from '../../utlis/types';
 
 export function useOrders() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -16,19 +16,26 @@ export function useOrders() {
   const [searchParams, setSearchParams] = useSearchParams();
   const itemsPerPage = 5;
 
-  const fetchOrders = useCallback(async (status: number | null = null) => {
-    setIsLoading(true);
+  const fetchOrders = useCallback(
+    async (status: number | null = null) => {
+      setIsLoading(true);
 
-    try {
-      const orders = await orderService.getOrders(currentPage, itemsPerPage, status);
-      setOrders(orders);
-    } catch (error) {
-      setError('Не удалось получить данные. Пожалуйста, попробуйте позже.');
-      console.error('Ошибка при загрузке заказов:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [currentPage, itemsPerPage]);
+      try {
+        const orders = await orderService.getOrders(
+          currentPage,
+          itemsPerPage,
+          status
+        );
+        setOrders(orders);
+      } catch (error) {
+        setError('Не удалось получить данные. Пожалуйста, попробуйте позже.');
+        console.error('Ошибка при загрузке заказов:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [currentPage, itemsPerPage]
+  );
 
   const fetchOrdersByStatus = useCallback(async (status: number | null) => {
     setIsLoading(true);
@@ -48,9 +55,17 @@ export function useOrders() {
     setIsLoading(true);
 
     try {
-      const orders = await orderService.getOrdersByTotal(currentPage, itemsPerPage, currentStatus, sortOrder);
+      const orders = await orderService.getOrdersByTotal(
+        currentPage,
+        itemsPerPage,
+        currentStatus,
+        sortOrder
+      );
       setOrders(orders);
-      const totalOrders = await orderService.getAllOrdersByTotal(currentStatus, sortOrder);
+      const totalOrders = await orderService.getAllOrdersByTotal(
+        currentStatus,
+        sortOrder
+      );
       setPagesCount(totalOrders.length);
     } catch (error) {
       setError('Не удалось получить данные. Пожалуйста, попробуйте позже.');
@@ -64,7 +79,10 @@ export function useOrders() {
     setIsLoading(true);
 
     try {
-      const orders = await orderService.getAllOrdersWithStart(currentPage, itemsPerPage);
+      const orders = await orderService.getAllOrdersWithStart(
+        currentPage,
+        itemsPerPage
+      );
       setOrders(orders);
       const totalOrders = await orderService.getAllOrders();
       setPagesCount(totalOrders.length);
@@ -109,7 +127,7 @@ export function useOrders() {
       fetchOrders(status);
       fetchOrdersByStatus(status);
     },
-    [fetchOrders, fetchOrdersByStatus, setSearchParams],
+    [fetchOrders, fetchOrdersByStatus, setSearchParams]
   );
 
   const handleSortOrder = () => {
@@ -124,9 +142,11 @@ export function useOrders() {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    setSearchParams({ status: currentStatus !== null ? currentStatus.toString() : '', page: page.toString() });
+    setSearchParams({
+      status: currentStatus !== null ? currentStatus.toString() : '',
+      page: page.toString(),
+    });
   };
-
 
   return {
     totalPages,
@@ -145,4 +165,3 @@ export function useOrders() {
     handleSortOrder,
   };
 }
-

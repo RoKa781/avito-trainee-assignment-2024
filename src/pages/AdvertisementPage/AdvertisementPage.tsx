@@ -30,11 +30,7 @@ const AdvertisementPage = () => {
       <Helmet>
         <title>{order?.name}</title>
       </Helmet>
-      {error && (
-        <ErrorNotification 
-          message={error}
-        />
-      )}
+      {error && <ErrorNotification message={error} />}
       {isEditing ? (
         <>
           <div className={styles.editForm}>
@@ -44,28 +40,32 @@ const AdvertisementPage = () => {
               label="URL изображения"
               value={formData.imageUrl || ''}
               onChange={handleInputChange}
-              placeholder="Введите URL изображения" />
+              placeholder="Введите URL изображения"
+            />
             <Input
               type="text"
               name="name"
               label="Название"
               value={formData.name || ''}
               onChange={handleInputChange}
-              placeholder="Введите название" />
+              placeholder="Введите название"
+            />
             <Input
               type="text"
               name="description"
               label="Описание"
               value={formData.description || ''}
               onChange={handleInputChange}
-              placeholder="Введите описание" />
+              placeholder="Введите описание"
+            />
             <Input
               type="number"
               name="price"
               label="Цена"
               value={formData.price || ''}
               onChange={handleInputChange}
-              placeholder="Введите цену" />
+              placeholder="Введите цену"
+            />
             <Button onClick={() => handleSave(id as string)}>Сохранить</Button>
           </div>
           <button
@@ -73,23 +73,40 @@ const AdvertisementPage = () => {
             className={styles.button}
           >
             <img src={svg} alt="Edit" />
-            {isEditing ? <span className={styles.buttonInfo}>Отмена</span> : <span className={styles.buttonInfo}>Редактировать</span>}
+            {isEditing ? (
+              <span className={styles.buttonInfo}>Отмена</span>
+            ) : (
+              <span className={styles.buttonInfo}>Редактировать</span>
+            )}
           </button>
         </>
       ) : (
         <>
           <div>
-            <img src={order?.imageUrl} alt={order?.name} className={styles.img} />
+            <img
+              src={order?.imageUrl}
+              alt={order?.name}
+              className={styles.img}
+            />
           </div>
           <div className={styles.infoContainer}>
             <div className={styles.itemInfo}>
-              <div className={styles.title}>Название: <br />{order?.name}</div>
+              <div className={styles.title}>
+                Название: <br />
+                {order?.name}
+              </div>
             </div>
             <div className={styles.itemInfo}>
-              <div className={styles.description}>Описание: <br />{order?.description}</div>
+              <div className={styles.description}>
+                Описание: <br />
+                {order?.description}
+              </div>
             </div>
             <div className={styles.itemInfo}>
-              <div className={styles.price}>Цена: <br />{order?.price}</div>
+              <div className={styles.price}>
+                Цена: <br />
+                {order?.price}
+              </div>
             </div>
             <div className={styles.itemNoFix}>
               <div className={styles.views}>Просмотры: {order?.views}</div>

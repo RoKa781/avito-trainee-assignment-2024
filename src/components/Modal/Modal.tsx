@@ -13,7 +13,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
         onClose();
       }
     };
@@ -33,16 +36,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
       <div className={styles['modal-content']} ref={modalRef}>
         <header className={styles['modal-header']}>
           <h2>{title}</h2>
-          <button className={styles['modal-close']} onClick={onClose}>&times;</button>
+          <button className={styles['modal-close']} onClick={onClose}>
+            &times;
+          </button>
         </header>
-        <main className={styles['modal-body']}>
-          {children}
-        </main>
+        <main className={styles['modal-body']}>{children}</main>
       </div>
     </div>
   );
 };
 
 export default Modal;
-
-
