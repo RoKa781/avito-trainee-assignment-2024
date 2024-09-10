@@ -3,6 +3,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  position: relative;
 }
 
 .selectContainer {
@@ -50,4 +51,34 @@
 .customSelect option {
   background-color: #ffffff;
   color: #333;
+}
+
+.inputContainer {
+  display: flex;
+}
+
+.searchButton {
+  height: 40px;
+  align-self: end;
+  background-color:#ffffff;
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+}
+
+.searchButton:hover {
+  border: 1px solid black;
+}
+
+.searchButton:active {
+  transform: scale(0.9);
+}
+
+@media (width < 637px) {
+  .container {
+    flex-direction: column;
+    width: 100%;
+    align-items: normal;
+    gap: 10px;
+    padding: 10px;
+  }
 }

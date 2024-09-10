@@ -103,6 +103,10 @@ export function useAdvertisements() {
     setSearchText(event.target.value);
   };
 
+  const handleSearchClick = useCallback(()=> {
+    fetchAdvertisementsBySearch(currentPage, itemsPerPage, searchText);
+  }, [fetchAdvertisementsBySearch, currentPage, itemsPerPage]);
+
   const handleSearchKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       fetchAdvertisementsBySearch(currentPage, itemsPerPage, searchText);
@@ -135,6 +139,7 @@ export function useAdvertisements() {
 
 
   return {
+    handleSearchClick,
     applyFilters,
     filterParams,
     handleInputChange,

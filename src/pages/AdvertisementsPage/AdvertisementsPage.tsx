@@ -11,6 +11,7 @@ import { useAdvertisements } from '../../shared/hooks/useAdvertisements';
 import { itemsOnList } from './AdvertisementsPage.helper';
 import { Helmet } from 'react-helmet-async';
 import Filters from '../../components/Filters/Filters';
+import svg from '../../images/icons8-search.svg';
 
 const AdvertisementsPage = () => {
   const {
@@ -32,6 +33,7 @@ const AdvertisementsPage = () => {
     handleSearchKeyDown,
     handleInputChange,
     applyFilters,
+    handleSearchClick,
   } = useAdvertisements();
 
   return (
@@ -45,14 +47,19 @@ const AdvertisementsPage = () => {
         />
       )}
       <div className={styles.container}>
-        <Input 
-          name='search' 
-          label='Поиск по объявлениям' 
-          placeholder='Начните искать' 
-          value={searchText}
-          onChange={handleSearchChange}
-          onKeyDown={handleSearchKeyDown}
-        />
+        <div className={styles.inputContainer}>
+          <Input 
+            name='search' 
+            label='Поиск по объявлениям' 
+            placeholder='Начните искать' 
+            value={searchText}
+            onChange={handleSearchChange}
+            onKeyDown={handleSearchKeyDown}
+          />
+          <button className={styles.searchButton} onClick={handleSearchClick}>
+            <img src={svg} alt='search'/>
+          </button>
+        </div>
         <Filters handleInputChange={handleInputChange}  filterParams={filterParams} applyFilters={applyFilters}/>
         <div className={styles.selectContainer}>
           <div className={styles.customSelect}>

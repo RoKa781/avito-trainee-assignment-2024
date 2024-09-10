@@ -61,7 +61,8 @@ const OrdersPage: React.FC = () => {
           Сортировать по {sortOrder === 'asc' ? 'возрастанию' : 'убыванию'}
         </Button>
       </div>
-      {!orders.length && (<h2>Ничего не найдено</h2>)}
+      
+      {!orders.length || !filteredOrders.length && (<h2>Ничего не найдено</h2>)}
       {isLoading ? (
         <Preloader />
       ) : (
