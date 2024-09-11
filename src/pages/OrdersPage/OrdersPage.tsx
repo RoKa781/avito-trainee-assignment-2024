@@ -62,7 +62,8 @@ const OrdersPage: React.FC = () => {
         </Button>
       </div>
 
-      {!orders.length || (!filteredOrders.length && <h2>Ничего не найдено</h2>)}
+      {!orders.length && <h2>Ничего не найдено</h2>}
+      {!filteredOrders && <h2>Ничего не найдено</h2>}
       {isLoading ? (
         <Preloader />
       ) : (

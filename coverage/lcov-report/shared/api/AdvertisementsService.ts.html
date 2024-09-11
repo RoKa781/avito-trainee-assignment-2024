@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>89/89</span>
+                <span class='fraction'>95/95</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>89/89</span>
+                <span class='fraction'>95/95</span>
             </div>
         
             
@@ -152,7 +152,13 @@
 <a name='L87'></a><a href='#L87'>87</a>
 <a name='L88'></a><a href='#L88'>88</a>
 <a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -171,6 +177,10 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -202,6 +212,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -255,67 +267,73 @@ export class AdvertisementsService extends ServerService {
     return await this.request(endpoint);
   }
 &nbsp;
-  async getAdvertisementsBySearch (currentPage: number, itemsPerPage: number, name: string) {
+  async getAdvertisementsBySearch(
+    currentPage: number,
+    itemsPerPage: number,
+    name: string
+  ) {
     const start = (currentPage - 1) * itemsPerPage;
     const endpoint = `/advertisements?_sort=-createdAt&amp;_start=${start}&amp;_limit=${itemsPerPage}&amp;name=${name}`;
     return await this.request(endpoint);
   }
 &nbsp;
-  async getAdvertisementsAllBySearch (name: string) {
+  async getAdvertisementsAllBySearch(name: string) {
     const endpoint = `/advertisements?_sort=-createdAt&amp;name=${name}`;
     return await this.request(endpoint);
   }
 &nbsp;
   async getAdvertisementsByFilter(
-    currentPage: number, 
+    currentPage: number,
     itemsPerPage: number,
-    filterParams: Record&lt;string, string | undefined&gt;,
+    filterParams: Record&lt;string, string | undefined&gt;
   ) {
     const start = (currentPage - 1) * itemsPerPage;
     let endpoint = `/advertisements?_sort=-createdAt&amp;_start=${start}&amp;_limit=${itemsPerPage}`;
-  
+&nbsp;
     const queryParams = new URLSearchParams();
-    Object.keys(filterParams).forEach(key =&gt; {
+    Object.keys(filterParams).forEach((key) =&gt; {
       const value = filterParams[key];
       if (value) {
         queryParams.set(`${key}_gte`, value);
       }
     });
-  
+&nbsp;
     const queryString = `${queryParams.toString()}`;
     if (queryString) {
       endpoint += `&amp;${queryString}`;
     }
-  
+&nbsp;
     return await this.request(endpoint);
   }
 &nbsp;
-  async getAllAdvertisementsByFilter(filterParams: Record&lt;string, string | undefined&gt;) {
+  async getAllAdvertisementsByFilter(
+    filterParams: Record&lt;string, string | undefined&gt;
+  ) {
     let endpoint = '/advertisements?_sort=-createdAt';
-  
+&nbsp;
     const queryParams = new URLSearchParams();
-    Object.keys(filterParams).forEach(key =&gt; {
+    Object.keys(filterParams).forEach((key) =&gt; {
       const value = filterParams[key];
       if (value) {
         queryParams.set(`${key}_gte`, value);
       }
     });
-  
+&nbsp;
     const queryString = `${queryParams.toString()}`;
     if (queryString) {
       endpoint += `&amp;${queryString}`;
     }
-  
+&nbsp;
     return await this.request(endpoint);
   }
 &nbsp;
   async addAdvertisement(advertisementData: {
-    name: string,
-    price: number, 
-    createdAt: string,
-    views: number,
-    likes: number,
-    imageUrl: string
+    name: string;
+    price: number;
+    createdAt: string;
+    views: number;
+    likes: number;
+    imageUrl: string;
   }) {
     const endpoint = '/advertisements';
     const options = {
@@ -337,7 +355,7 @@ export const advertisementsService = new AdvertisementsService();
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-09-10T09:47:48.524Z
+                at 2024-09-11T11:50:14.926Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

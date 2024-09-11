@@ -8,6 +8,7 @@
     height: 500px;
     color: black;
     transition: .2s ease-in-out;
+    position: relative;
 }
 
 .adv:hover {
@@ -46,4 +47,21 @@
     margin-top: 5px;
     width: 70%;
     align-self: center;
+}
+
+.deleteButton {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    top: 10px;
+    right: 10px;
+    padding: 5px;
+}
+
+.deleteButton:hover {
+    transform: scale(1.1);
+}
+
+.deleteButton:active {
+    transform: scale(0.9);
 }

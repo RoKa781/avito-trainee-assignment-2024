@@ -2,14 +2,20 @@ import { useNavigate } from 'react-router-dom';
 import { Advertisment } from '../../utlis/types';
 import Button from '../Button/Button';
 import styles from './AdvertisementCard.module.css';
+import svg from '../../images/delete-button-svgrepo-com.svg';
 
-const AdvertisementCard: React.FC<Advertisment> = ({
+interface AdvertisementCardProps extends Advertisment {
+  onDelete: (event: React.MouseEvent, id: string) => Promise<void>;
+}
+
+const AdvertisementCard: React.FC<AdvertisementCardProps> = ({
   imageUrl,
   name,
   price,
   views,
   likes,
   id,
+  onDelete,
 }) => {
   const navigate = useNavigate();
 
@@ -17,6 +23,10 @@ const AdvertisementCard: React.FC<Advertisment> = ({
     event.stopPropagation();
     event.preventDefault();
     navigate(`/orders/${id}`);
+  };
+
+  const handleDeleteButtonClick = (event: React.MouseEvent) => {
+    onDelete(event, id);
   };
 
   return (
@@ -33,6 +43,9 @@ const AdvertisementCard: React.FC<Advertisment> = ({
       <Button onClick={handleButtonClick} className={styles.button}>
         Перейти к заказам
       </Button>
+      <button className={styles.deleteButton} onClick={handleDeleteButtonClick}>
+        <img src={svg} alt="Delete" className={styles.deleteImg} />
+      </button>
     </article>
   );
 };

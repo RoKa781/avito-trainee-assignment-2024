@@ -19,6 +19,15 @@ export class AdvertisementService extends ServerService {
 
     return await this.request(endpoint, options);
   }
+
+  async deleteAdvertisement(id: string) {
+    const endpoint = `/advertisements/${id}`;
+    const options = {
+      method: 'DELETE',
+    };
+
+    return await this.request(endpoint, options);
+  }
 }
 
 export const advertisementService = new AdvertisementService();

@@ -5,6 +5,7 @@ import Modal from '../Modal/Modal';
 import Input from '../Input/Input';
 import { Preloader } from '../Preloader/Preloader';
 import { advertisementsService } from '../../shared/api/AdvertisementsService';
+import ErrorNotification from '../ErrorNotification/ErrorNotification';
 
 interface AddAdvertisementModalProps {
   isOpen: boolean;
@@ -22,10 +23,12 @@ const AddAdvertisementModal: React.FC<AddAdvertisementModalProps> = ({
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState<number | ''>('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
+    setError('');
 
     const advertisementData = {
       name: title,
@@ -43,7 +46,7 @@ const AddAdvertisementModal: React.FC<AddAdvertisementModalProps> = ({
       onSuccess();
       onClose();
     } catch (error) {
-      console.error('Ошибка при отправке данных:', error);
+      setError('Не удалось сохранить');
     } finally {
       setIsLoading(false);
     }
@@ -58,6 +61,7 @@ const AddAdvertisementModal: React.FC<AddAdvertisementModalProps> = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Новое объявление">
+      {error && <ErrorNotification message={error} />}
       <form className={styles.modal} onSubmit={handleSubmit}>
         <Input
           name="urlimage"

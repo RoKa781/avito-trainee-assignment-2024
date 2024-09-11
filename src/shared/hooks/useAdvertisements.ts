@@ -128,6 +128,7 @@ export function useAdvertisements() {
   };
 
   const handleSearchClick = useCallback(() => {
+    setError('');
     fetchAdvertisementsBySearch(currentPage, itemsPerPage, searchText);
   }, [fetchAdvertisementsBySearch, currentPage, itemsPerPage]);
 
@@ -159,7 +160,7 @@ export function useAdvertisements() {
     });
 
     setSearchParams(updatedSearchParams);
-
+    setError('');
     fetchAdvertisementsByFilter(currentPage, itemsPerPage, filterParams);
   };
 

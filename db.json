@@ -142,113 +142,22 @@
       "imageUrl": "test"
     },
     {
-      "id": "e28d",
+      "id": "54ba",
       "name": "test",
-      "price": 4,
-      "createdAt": "2024-09-09T00:46:51.174Z",
+      "price": 231231,
+      "createdAt": "2024-09-11T11:35:53.730Z",
       "views": 0,
       "likes": 0,
-      "imageUrl": "test"
+      "imageUrl": "https://images.freeimages.com/images/large-previews/39a/spring-1377434.jpg"
     },
     {
-      "id": "961f",
+      "id": "e663",
       "name": "test",
-      "price": 6,
-      "createdAt": "2024-09-09T00:46:54.377Z",
+      "price": 423423,
+      "createdAt": "2024-09-11T11:36:11.566Z",
       "views": 0,
       "likes": 0,
-      "imageUrl": "test"
-    },
-    {
-      "id": "9e75",
-      "name": "test",
-      "price": 5,
-      "createdAt": "2024-09-09T00:46:57.957Z",
-      "views": 0,
-      "likes": 0,
-      "imageUrl": "test"
-    },
-    {
-      "id": "e442",
-      "name": "test",
-      "price": 7,
-      "createdAt": "2024-09-09T00:47:01.601Z",
-      "views": 0,
-      "likes": 0,
-      "imageUrl": "test"
-    },
-    {
-      "id": "7a6a",
-      "name": "test",
-      "price": 9,
-      "createdAt": "2024-09-09T00:47:04.682Z",
-      "views": 0,
-      "likes": 0,
-      "imageUrl": "test"
-    },
-    {
-      "id": "870c",
-      "name": "test",
-      "price": 8,
-      "createdAt": "2024-09-09T00:47:08.580Z",
-      "views": 0,
-      "likes": 0,
-      "imageUrl": "test"
-    },
-    {
-      "id": "504e",
-      "name": "test",
-      "price": 8,
-      "createdAt": "2024-09-09T00:47:13.057Z",
-      "views": 0,
-      "likes": 0,
-      "imageUrl": "test"
-    },
-    {
-      "id": "2c89",
-      "name": "test",
-      "price": 5453,
-      "createdAt": "2024-09-09T00:47:16.616Z",
-      "views": 0,
-      "likes": 0,
-      "imageUrl": "test"
-    },
-    {
-      "id": "2895",
-      "name": "test",
-      "price": 32,
-      "createdAt": "2024-09-09T00:47:22.566Z",
-      "views": 0,
-      "likes": 0,
-      "imageUrl": "test"
-    },
-    {
-      "id": "9dda",
-      "name": "test",
-      "price": 432,
-      "createdAt": "2024-09-09T00:47:27.008Z",
-      "views": 0,
-      "likes": 0,
-      "imageUrl": "test",
-      "description": "332"
-    },
-    {
-      "id": "7a05",
-      "name": "test",
-      "price": 43243,
-      "createdAt": "2024-09-10T09:32:13.263Z",
-      "views": 0,
-      "likes": 0,
-      "imageUrl": "https://images.unsplash.com/photo-1723662887372-b6f42b6ccd50?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "id": "dca9",
-      "name": "аываы",
-      "price": 4234,
-      "createdAt": "2024-09-10T17:06:17.615Z",
-      "views": 0,
-      "likes": 0,
-      "imageUrl": "авыаы"
+      "imageUrl": "https://images.freeimages.com/images/large-previews/39a/spring-1377434.jpg"
     }
   ],
   "orders": [

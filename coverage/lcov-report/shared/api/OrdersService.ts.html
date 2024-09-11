@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.23% </span>
+                <span class="strong">95.78% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>80/84</span>
+                <span class='fraction'>91/95</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.23% </span>
+                <span class="strong">95.78% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>80/84</span>
+                <span class='fraction'>91/95</span>
             </div>
         
             
@@ -147,11 +147,26 @@
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
 <a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -173,9 +188,13 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -193,6 +212,9 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -235,64 +257,75 @@
 import { ServerService } from './ServerService';
 &nbsp;
 export class OrderService extends ServerService {
-  async getOrders(currentPage: number, itemsPerPage: number, status: number | null): Promise&lt;Order[]&gt; {
+  async getOrders(
+    currentPage: number,
+    itemsPerPage: number,
+    status: number | null
+  ): Promise&lt;Order[]&gt; {
     const start = (currentPage - 1) * itemsPerPage;
     let endpoint = `/orders?_sort=-createdAt&amp;_start=${start}&amp;_limit=${itemsPerPage}`;
-    
+&nbsp;
     if (status !== null) {
       endpoint += `&amp;status=${status}`;
     }
-    
+&nbsp;
     return this.request(endpoint);
   }
 &nbsp;
-  async getAllOrdersWithStart (currentPage: number, itemsPerPage: number) {
+  async getAllOrdersWithStart(currentPage: number, itemsPerPage: number) {
     const start = (currentPage - 1) * itemsPerPage;
     const endpoint = `/orders?_sort=-createdAt&amp;_start=${start}&amp;_limit=${itemsPerPage}`;
-    
+&nbsp;
     return this.request(endpoint);
   }
 &nbsp;
-  async getAllOrders () {
+  async getAllOrders() {
     const endpoint = '/orders';
     return this.request(endpoint);
-&nbsp;
   }
 &nbsp;
-  async getOrdersByTotal(currentPage: number, itemsPerPage: number, status: number | null, sortOrder: string) : Promise&lt;Order[]&gt; {
+  async getOrdersByTotal(
+    currentPage: number,
+    itemsPerPage: number,
+    status: number | null,
+    sortOrder: string
+  ): Promise&lt;Order[]&gt; {
     const start = (currentPage - 1) * itemsPerPage;
     let endpoint = `/orders?_start=${start}&amp;_limit=${itemsPerPage}`;
-  
+&nbsp;
     if (sortOrder === 'asc') {
       endpoint += '&amp;_sort=total';
     }<span class="branch-0 cbranch-no" title="branch not covered" > else {</span>
 <span class="cstat-no" title="statement not covered" >      endpoint += '&amp;_sort=-total';</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-    
+&nbsp;
     if (status !== null) {
       endpoint += `&amp;status=${status}`;
     }
-    
+&nbsp;
     return this.request(endpoint);
   }
 &nbsp;
-  async getAllOrdersByTotal(status: number | null, sortOrder: string) : Promise&lt;Order[]&gt; {
+  async getAllOrdersByTotal(
+    status: number | null,
+    sortOrder: string
+  ): Promise&lt;Order[]&gt; {
     let endpoint = '/orders';
-  
+&nbsp;
     if (sortOrder === 'asc') {
       endpoint += '?_sort=total';
     }<span class="branch-0 cbranch-no" title="branch not covered" > else {</span>
 <span class="cstat-no" title="statement not covered" >      endpoint += '?_sort=-total';</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-    
+&nbsp;
     if (status !== null) {
       endpoint += `&amp;status=${status}`;
     }
-    
+&nbsp;
     return this.request(endpoint);
   }
 &nbsp;
-  async getOrdersByStatus (status: number | null) {
+  async getOrdersByStatus(status: number | null) {
     let endpoint = '/orders?';
     if (status !== null) {
       endpoint += `&amp;status=${status}`;
@@ -301,7 +334,7 @@ export class OrderService extends ServerService {
   }
 &nbsp;
   async closeOrder(id: string) {
-    const endpoint  = `/orders/${id}`;
+    const endpoint = `/orders/${id}`;
     const options = {
       method: 'PATCH',
       headers: {
@@ -322,7 +355,7 @@ export const orderService = new OrderService();
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-09-10T09:47:48.524Z
+                at 2024-09-11T11:50:14.926Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

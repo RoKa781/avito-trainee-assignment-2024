@@ -36,6 +36,7 @@ export function useAdvertisement(id: string | null) {
 
   const handleSave = async (id: string) => {
     setIsLoading(true);
+    setError('');
     try {
       const updatedAdvertisement =
         await advertisementService.updateAdvertisement(id, formData);
